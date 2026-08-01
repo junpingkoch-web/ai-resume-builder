@@ -1,0 +1,5 @@
+# Keep GitHub's language stats focused on the page markup (HTML), matching
+# the other single-file projects, instead of the split-out CSS/JS files.
+style.css linguist-vendored
+script.js linguist-vendored
+phrasebank.js linguist-vendored

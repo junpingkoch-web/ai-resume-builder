@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://junpingkoch-web.github.io/ai-resume-builder/sitemap.xml

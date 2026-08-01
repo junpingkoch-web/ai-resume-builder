@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 简历生成器 AI Resume Builder KI-Lebenslauf-Generator</title>
+<meta name="description" content="免费、无需登录的三语简历生成工具 — 中文/English/Deutsch。填写一次经历，一键生成中/英/德三语专业简历，支持打印导出为 PDF。Free, no-login resume builder that generates Chinese, English and German versions from one set of data.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://junpingkoch-web.github.io/ai-resume-builder/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%84%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+<!-- Google AdSense: replace data-ad-client below with your real ca-pub-XXXX ID once your site is approved. -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <h1 class="app-title">
+        <span class="title-icon" aria-hidden="true">📄</span>
+        <span class="title-text" data-i18n="appTitle">AI 简历生成器</span>
+        <span class="title-icon" aria-hidden="true">✨</span>
+      </h1>
+      <div class="header-actions">
+        <button id="helpToggle" class="icon-btn help-btn-3d" type="button" aria-label="Tips" aria-haspopup="dialog">?</button>
+        <div class="lang-switch" role="group" aria-label="Interface language">
+          <button class="lang-btn active" data-lang="zh" type="button">中文</button>
+          <button class="lang-btn" data-lang="en" type="button">EN</button>
+          <button class="lang-btn" data-lang="de" type="button">DE</button>
+        </div>
+      </div>
+    </header>
+
+    <p class="tagline" data-i18n="tagline">模板驱动的三语简历生成 — 不调用任何 AI API，数据只留在你的浏览器里。</p>
+
+    <!-- Ad slot: top banner -->
+    <div class="ad-slot">
+      <div class="ad-box" data-i18n="adLabel">广告</div>
+    </div>
+
+    <div class="layout">
+      <!-- FORM COLUMN -->
+      <div class="form-col">
+
+        <section class="card">
+          <h2 class="section-title" data-i18n="sectionPersonal">个人信息</h2>
+          <div class="field-grid">
+            <div class="field">
+              <label for="fName" data-i18n="fieldName">姓名</label>
+              <input type="text" id="fName" data-i18n-placeholder="fieldNamePh" placeholder="张三 / Jane Doe">
+            </div>
+            <div class="field">
+              <label for="fEmail" data-i18n="fieldEmail">邮箱</label>
+              <input type="email" id="fEmail" placeholder="you@example.com">
+            </div>
+            <div class="field">
+              <label for="fPhone" data-i18n="fieldPhone">电话</label>
+              <input type="text" id="fPhone" placeholder="+41 79 000 00 00">
+            </div>
+            <div class="field">
+              <label for="fLocation" data-i18n="fieldLocation">所在地</label>
+              <input type="text" id="fLocation" data-i18n-placeholder="fieldLocationPh" placeholder="Zürich, Schweiz">
+            </div>
+            <div class="field">
+              <label for="fWebsite" data-i18n="fieldWebsite">网站 / LinkedIn</label>
+              <input type="text" id="fWebsite" placeholder="linkedin.com/in/...">
+            </div>
+          </div>
+
+          <div class="field">
+            <label data-i18n="fieldTitle">职位头衔 / Headline</label>
+            <div class="preset-row">
+              <select id="titlePreset" class="preset-select"></select>
+            </div>
+            <div class="lang-tabs-field" id="titleLangField"></div>
+          </div>
+
+          <div class="field">
+            <label data-i18n="fieldSummary">个人简介</label>
+            <div class="preset-row">
+              <select id="summaryTemplatePreset" class="preset-select"></select>
+              <input type="number" id="summaryYears" min="0" max="60" style="max-width:90px;" data-i18n-placeholder="fieldYearsPh" placeholder="年限">
+              <button type="button" class="btn btn-secondary btn-small" id="applySummaryTemplate" data-i18n="applyTemplateBtn">套用模板</button>
+            </div>
+            <p class="hint-text" data-i18n="summaryHint">套用模板会用你已填写的头衔与前两项技能自动生成三语简介草稿，之后可自行修改。</p>
+            <div class="lang-tabs-field" id="summaryLangField"></div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="section-head-row">
+            <h2 class="section-title" data-i18n="sectionExperience">工作经历</h2>
+            <button type="button" class="btn btn-primary btn-small" id="addExperience">+ <span data-i18n="addExperienceBtn">添加经历</span></button>
+          </div>
+          <div id="experienceList" class="repeat-list"></div>
+        </section>
+
+        <section class="card">
+          <div class="section-head-row">
+            <h2 class="section-title" data-i18n="sectionEducation">教育背景</h2>
+            <button type="button" class="btn btn-primary btn-small" id="addEducation">+ <span data-i18n="addEducationBtn">添加学历</span></button>
+          </div>
+          <div id="educationList" class="repeat-list"></div>
+        </section>
+
+        <section class="card">
+          <h2 class="section-title" data-i18n="sectionSkills">技能</h2>
+          <div class="skill-block">
+            <h3 class="subheading" data-i18n="skillsTechnical">专业技能</h3>
+            <div class="preset-row">
+              <select id="techSkillPreset" class="preset-select"></select>
+              <button type="button" class="btn btn-secondary btn-small" id="addTechSkill" data-i18n="addBtn">添加</button>
+            </div>
+            <div class="preset-row">
+              <input type="text" id="techSkillCustom" class="preset-select" data-i18n-placeholder="customSkillPh" placeholder="或输入自定义技能（三语显示相同文字）">
+              <button type="button" class="btn btn-secondary btn-small" id="addTechSkillCustom" data-i18n="addBtn">添加</button>
+            </div>
+            <div class="chip-row" id="techSkillChips"></div>
+          </div>
+          <div class="skill-block">
+            <h3 class="subheading" data-i18n="skillsSoft">软技能</h3>
+            <div class="preset-row">
+              <select id="softSkillPreset" class="preset-select"></select>
+              <button type="button" class="btn btn-secondary btn-small" id="addSoftSkill" data-i18n="addBtn">添加</button>
+            </div>
+            <div class="preset-row">
+              <input type="text" id="softSkillCustom" class="preset-select" data-i18n-placeholder="customSkillPh" placeholder="或输入自定义技能（三语显示相同文字）">
+              <button type="button" class="btn btn-secondary btn-small" id="addSoftSkillCustom" data-i18n="addBtn">添加</button>
+            </div>
+            <div class="chip-row" id="softSkillChips"></div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="section-head-row">
+            <h2 class="section-title" data-i18n="sectionLanguages">语言能力</h2>
+            <button type="button" class="btn btn-primary btn-small" id="addLanguage">+ <span data-i18n="addLanguageBtn">添加语言</span></button>
+          </div>
+          <div id="languageList" class="repeat-list"></div>
+        </section>
+
+        <button type="button" class="btn btn-primary btn-generate" id="generateBtn" data-i18n="generateBtn">生成三语简历</button>
+      </div>
+
+      <!-- PREVIEW COLUMN -->
+      <div class="preview-col">
+        <div class="card preview-card">
+          <div class="preview-toolbar">
+            <div class="toolbar-switch-group">
+              <span class="toolbar-label" data-i18n="resumeLangLabel">简历语言</span>
+              <div class="lang-switch resume-lang-switch" role="group" aria-label="Resume content language">
+                <button class="lang-btn active" data-resume-lang="zh" type="button">中文</button>
+                <button class="lang-btn" data-resume-lang="en" type="button">EN</button>
+                <button class="lang-btn" data-resume-lang="de" type="button">DE</button>
+              </div>
+            </div>
+            <div class="toolbar-switch-group">
+              <span class="toolbar-label" data-i18n="templateLabel">简历模板</span>
+              <div class="lang-switch template-switch" role="group" aria-label="Resume template">
+                <button class="lang-btn active" data-template="classic" type="button" data-i18n="tplClassic">经典</button>
+                <button class="lang-btn" data-template="modern" type="button" data-i18n="tplModern">现代</button>
+                <button class="lang-btn" data-template="minimal" type="button" data-i18n="tplMinimal">简约</button>
+                <button class="lang-btn" data-template="sidebar" type="button" data-i18n="tplSidebar">侧边栏</button>
+                <button class="lang-btn" data-template="banner" type="button" data-i18n="tplBanner">横幅</button>
+              </div>
+            </div>
+            <div class="preview-actions">
+              <button type="button" class="btn btn-secondary btn-small" id="printBtn" data-i18n="printBtn">🖨️ 打印 / 导出 PDF</button>
+              <button type="button" class="btn btn-secondary btn-small" id="copyTextBtn" data-i18n="copyTextBtn">📋 复制文本</button>
+              <button type="button" class="btn btn-secondary btn-small" id="downloadTextBtn" data-i18n="downloadTextBtn">⬇️ 下载 .txt</button>
+            </div>
+          </div>
+          <p class="empty-state" id="previewEmptyState" data-i18n="previewEmpty">填写左侧信息并点击"生成三语简历"，预览会显示在这里。</p>
+          <div id="resumePreview" class="resume-preview" hidden></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ad slot: in-content rectangle -->
+    <div class="ad-slot in-content">
+      <div class="ad-box" data-i18n="adLabel">广告</div>
+    </div>
+
+    <footer class="disclaimer">
+      <p data-i18n="disclaimer">本工具完全在你的浏览器本地运行，不上传、不存储你的任何数据，也不调用任何 AI API — 三语内容由模板与短语库拼接生成，生成后请务必自行校对。</p>
+    </footer>
+  </div>
+
+  <!-- Support button -->
+  <a
+    class="support-fab"
+    href="https://www.buymeacoffee.com/junping.koch"
+    target="_blank"
+    rel="noopener noreferrer"
+    data-i18n-title="coffeeTooltip"
+    title="喜欢这个工具？请我喝杯咖啡"
+  >
+    <span aria-hidden="true">☕</span>
+    <span data-i18n="coffeeBtn">请我喝杯咖啡</span>
+  </a>
+
+  <div id="helpModal" class="modal-overlay" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+      <div class="modal-head">
+        <h2 id="helpTitle" data-i18n="helpTitle">使用说明</h2>
+        <button id="helpClose" class="icon-btn" type="button" aria-label="Close">&times;</button>
+      </div>
+      <ul class="tips-list">
+        <li data-i18n="helpTip1">姓名、邮箱、电话等联系方式在三语版本中保持不变。</li>
+        <li data-i18n="helpTip2">职位头衔、学历、技能、语言等可从下拉菜单中选择 — 选中后会自动生成中/英/德三种说法。</li>
+        <li data-i18n="helpTip3">自由填写的内容（如简介、工作描述）需要你分别为每种语言填写一次；可用"复制到其他语言"按钮先复制过去再修改。</li>
+        <li data-i18n="helpTip4">点击"生成三语简历"后，用预览区上方的语言切换按钮查看中/英/德三个版本，并可打印导出 PDF 或下载文本。</li>
+        <li data-i18n="helpTip5">预览区上方还可以切换"简历模板"（经典 / 现代 / 简约），随时更换排版风格，内容不受影响。</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="phrasebank.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
