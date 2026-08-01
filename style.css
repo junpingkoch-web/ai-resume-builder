@@ -405,7 +405,7 @@ body {
 
 .toolbar-switch-group { display: flex; align-items: center; gap: 8px; }
 
-.toolbar-label { font-size: 0.72rem; color: var(--text-muted); font-weight: 700; white-space: nowrap; }
+.toolbar-label { font-size: 0.95rem; color: var(--text); font-weight: 800; white-space: nowrap; }
 
 .empty-state {
   color: var(--text-muted);
