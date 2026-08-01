@@ -219,7 +219,8 @@
 
   function renderLangTabsField(container, obj, opts) {
     const multiline = !!(opts && opts.multiline);
-    container.innerHTML = LANGS.map((l) => (
+    const l = state.uiLang;
+    container.innerHTML = (
       '<div class="lang-tab-item">' +
         '<div class="lang-tab-head">' +
           '<span class="lang-tab-badge">' + l.toUpperCase() + '</span>' +
@@ -229,7 +230,7 @@
           ? '<textarea data-field-lang="' + l + '" rows="2">' + escapeHtml(obj[l]) + '</textarea>'
           : '<input type="text" data-field-lang="' + l + '" value="' + escapeHtml(obj[l]) + '">') +
       '</div>'
-    )).join("");
+    );
 
     container.querySelectorAll("[data-field-lang]").forEach((el) => {
       el.addEventListener("input", () => {
@@ -241,7 +242,7 @@
       btn.addEventListener("click", () => {
         const srcLang = btn.dataset.copyLang;
         const val = obj[srcLang] || "";
-        LANGS.forEach((l) => { if (l !== srcLang) obj[l] = val; });
+        LANGS.forEach((otherLang) => { if (otherLang !== srcLang) obj[otherLang] = val; });
         renderLangTabsField(container, obj, opts);
         saveDraft();
       });
