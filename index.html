@@ -8,7 +8,46 @@
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://junpingkoch-web.github.io/ai-resume-builder/">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%93%84%3C/text%3E%3C/svg%3E">
-<link rel="stylesheet" href="style.css?v=2">
+<link rel="stylesheet" href="style.css?v=3">
+<!-- Structured data: FAQPage (English defaults; keep in sync with the "en" faq array in script.js) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Does this tool actually connect to ChatGPT, Claude, or another AI model?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. This is a purely front-end template/phrase-bank tool with no AI API calls and no backend server. The AI-like experience comes from a pre-built trilingual phrase bank." }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it write my profile summary and job descriptions for me automatically?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Those free-text fields need to be filled in once per language by you; the tool only offers a copy-to-other-languages button to give you a starting point." }
+    },
+    {
+      "@type": "Question",
+      "name": "Why do some fields fill in all three languages when I pick just one?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Because those are preset fields backed by a hand-built phrase bank — picking an option pulls the matching Chinese/English/German entries straight from that bank, not a live translation." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is the resume info I enter saved to a server or visible to anyone else?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Everything is stored only in your own browser's local storage; it's never uploaded to a server, and there's no account system." }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to double-check the generated resume myself?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. While the preset fields' trilingual pairs were proofread ahead of time, all free-text content comes entirely from your own input — always read through the result carefully." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use this tool without an internet connection?",
+      "acceptedAnswer": { "@type": "Answer", "text": "After the page loads once, most core features work fine offline, since the tool doesn't depend on any backend or AI API." }
+    }
+  ]
+}
+</script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
@@ -207,8 +246,24 @@
       <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
+    <section class="explain-section">
+      <h2 data-i18n="explainTitle">What does "AI" actually mean in this tool's name?</h2>
+      <p data-i18n="explainP1"></p>
+      <p data-i18n="explainP2"></p>
+      <p data-i18n="explainP3"></p>
+
+      <h2 data-i18n="faqTitle">Frequently Asked Questions</h2>
+      <div class="faq-list" id="faqList"></div>
+    </section>
+
     <footer class="disclaimer">
       <p data-i18n="disclaimer">本工具完全在你的浏览器本地运行，不上传、不存储你的任何数据，也不调用任何 AI API — 三语内容由模板与短语库拼接生成，生成后请务必自行校对。</p>
+      <nav class="footer-links">
+        <a href="https://junpingkoch-web.github.io/about.html">About · 关于</a>
+        <a href="https://junpingkoch-web.github.io/contact.html">Contact · 联系</a>
+        <a href="https://junpingkoch-web.github.io/privacy.html">Privacy · 隐私</a>
+        <a href="https://junpingkoch-web.github.io/terms.html">Terms · 条款</a>
+      </nav>
     </footer>
   </div>
 
@@ -242,6 +297,6 @@
   </div>
 
   <script src="phrasebank.js?v=2"></script>
-  <script src="script.js?v=2"></script>
+  <script src="script.js?v=3"></script>
 </body>
 </html>

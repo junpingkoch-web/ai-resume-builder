@@ -602,6 +602,57 @@ body {
 
 .ad-slot.in-content .ad-box { min-height: 110px; }
 
+/* Explainer + FAQ section */
+.explain-section {
+  margin-top: 20px;
+  padding: 20px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius);
+}
+.explain-section h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 10px;
+  color: var(--text);
+}
+.explain-section h2:not(:first-child) { margin-top: 20px; }
+.explain-section p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0 0 12px;
+}
+.explain-section p:last-child { margin-bottom: 0; }
+
+.faq-list { margin-top: 4px; }
+.faq-item {
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  background: var(--bg);
+  margin-bottom: 8px;
+}
+.faq-item summary {
+  cursor: pointer;
+  padding: 12px 14px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text);
+  list-style: none;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary .chev { transition: transform 0.15s ease; color: var(--text-muted); font-size: 0.75rem; }
+.faq-item[open] summary .chev { transform: rotate(90deg); }
+.faq-item .faq-a { padding: 0 14px 14px; font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+
+/* Footer trust-page links */
+.footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 14px; font-size: 0.76rem; }
+.footer-links a { color: var(--text-muted); text-decoration: none; }
+.footer-links a:hover { color: var(--text); text-decoration: underline; }
+
 .support-fab {
   position: fixed;
   right: 20px;

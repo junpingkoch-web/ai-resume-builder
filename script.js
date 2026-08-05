@@ -53,7 +53,20 @@
       removeBtn: "删除", copyToOthers: "复制到其它语言 →",
       resumeSummary: "个人简介", resumeExperience: "工作经历", resumeEducation: "教育背景",
       resumeSkillsTechnical: "专业技能", resumeSkillsSoft: "软技能", resumeLanguages: "语言能力",
-      presentWord: "至今"
+      presentWord: "至今",
+      explainTitle: "这里的「AI」到底是什么意思？",
+      explainP1: "老实说，这个工具完全不调用任何大语言模型（比如 ChatGPT、Claude）的 API——所谓「智能」，其实是一个我手工整理的中/英/德三语短语库在起作用。职位头衔、学位、动词、技能名称、语言水平这些「预设」字段，选一次下拉菜单，就能同时填出三种语言的标准说法，因为这些词条本来就是我提前按三语一一对应写好的。",
+      explainP2: "但个人简介和工作经历描述这类自由填写的内容，工具没办法帮你自动生成或翻译——你需要为每种语言各写一遍。为了减轻负担，每个语言输入框旁边都有一个「复制到其他语言」按钮，可以先把已经写好的一种语言复制过去，再手动调整成地道的表达，而不是逐字硬翻。",
+      explainP3: "选择这种做法而不是接入真实AI模型，是刻意的取舍：不需要 API Key、不产生任何算力费用、不需要注册账号，你填写的所有信息只保存在你自己浏览器的本地存储里，从不上传到任何服务器——代价是没法像真正的AI那样帮你润色文笔或凭空生成个性化的段落，生成后请务必自己通读检查一遍。",
+      faqTitle: "常见问题",
+      faq: [
+        { q: "这个工具真的接入了 ChatGPT、Claude 这类AI大模型吗？", a: "没有。这是一个纯前端的模板/短语库工具，不调用任何AI API，也没有后端服务器。所谓「AI」体验，来自提前整理好的中/英/德三语对照词库。" },
+        { q: "个人简介和工作描述是自动帮我写好的吗？", a: "不是。这些自由文本内容需要你自己为每种语言分别填写一次；工具只提供「复制到其他语言」按钮帮你把已写好的内容复制过去做起点，具体措辞仍需你自己调整。" },
+        { q: "为什么有些字段（比如职位、学位、技能）选一次就能同时出现三种语言？", a: "因为这些是「预设」字段，背后是我提前手工整理好的三语词库——选中一个选项，就是直接调用词库里对应的中/英/德三个版本，不是实时翻译或生成。" },
+        { q: "我填写的简历信息会被保存到服务器或被别人看到吗？", a: "不会。所有数据只保存在你自己浏览器的本地存储（localStorage）中，永远不会上传到任何服务器，也没有账号系统。" },
+        { q: "生成的简历内容需要我自己检查吗？", a: "需要，而且很重要。虽然预设字段的三语对照是提前校对好的，但自由填写的内容完全出自你自己的输入，生成后请务必通读一遍，确认语法、格式和内容都准确无误。" },
+        { q: "没有网络连接可以用这个工具吗？", a: "首次加载页面后，由于工具不依赖任何后端接口或AI API，大部分核心功能（填写、生成、预览、打印）在离线状态下也能正常使用。" }
+      ]
     },
     en: {
       appTitle: "AI Resume Builder",
@@ -98,7 +111,20 @@
       removeBtn: "Remove", copyToOthers: "Copy to other languages →",
       resumeSummary: "Profile Summary", resumeExperience: "Work Experience", resumeEducation: "Education",
       resumeSkillsTechnical: "Technical Skills", resumeSkillsSoft: "Soft Skills", resumeLanguages: "Languages",
-      presentWord: "Present"
+      presentWord: "Present",
+      explainTitle: "What does \"AI\" actually mean in this tool's name?",
+      explainP1: "Honestly, this tool doesn't call any large language model API (ChatGPT, Claude, or otherwise) at all — the \"smart\" behavior comes from a phrase bank built by hand, covering Chinese, English, and German. Preset fields like job title, degree, action verbs, skill names, and language levels fill all three languages the instant you pick one from a dropdown, simply because those entries were already written in matched triples ahead of time.",
+      explainP2: "Free-text fields like your profile summary and job descriptions can't be auto-generated or translated, though — you have to write each one once per language yourself. To ease that, every language box has a \"copy to other languages\" button, so you can copy over what you already wrote and adjust it into natural phrasing, rather than doing a word-for-word translation.",
+      explainP3: "Choosing this approach over a real AI model was a deliberate trade-off: no API key, no compute costs, no account needed — everything you type stays in your own browser's local storage and is never uploaded to any server. The cost is that it can't polish your writing or generate a fully personalized paragraph out of thin air the way a real AI could, so always read through the result carefully after generating it.",
+      faqTitle: "Frequently Asked Questions",
+      faq: [
+        { q: "Does this tool actually connect to ChatGPT, Claude, or another AI model?", a: "No. This is a purely front-end template/phrase-bank tool with no AI API calls and no backend server. The \"AI-like\" experience comes from a pre-built trilingual phrase bank." },
+        { q: "Does it write my profile summary and job descriptions for me automatically?", a: "No. Those free-text fields need to be filled in once per language by you; the tool only offers a \"copy to other languages\" button to give you a starting point — the actual wording is still up to you." },
+        { q: "Why do some fields fill in all three languages when I pick just one?", a: "Because those are preset fields backed by a phrase bank built by hand — picking an option pulls the matching Chinese/English/German entries straight from that bank, not a live translation or generation." },
+        { q: "Is the resume info I enter saved to a server or visible to anyone else?", a: "No. Everything is stored only in your own browser's local storage; it's never uploaded to a server, and there's no account system." },
+        { q: "Do I need to double-check the generated resume myself?", a: "Yes, and it matters. While the preset fields' trilingual pairs were proofread ahead of time, all free-text content comes entirely from your own input — always read through the result carefully." },
+        { q: "Can I use this tool without an internet connection?", a: "After the page loads once, most core features (filling in the form, generating, previewing, printing) work fine offline, since the tool doesn't depend on any backend or AI API." }
+      ]
     },
     de: {
       appTitle: "KI-Lebenslauf-Generator",
@@ -143,7 +169,20 @@
       removeBtn: "Entfernen", copyToOthers: "In andere Sprachen kopieren →",
       resumeSummary: "Profil", resumeExperience: "Berufserfahrung", resumeEducation: "Ausbildung",
       resumeSkillsTechnical: "Fachliche Kenntnisse", resumeSkillsSoft: "Soft Skills", resumeLanguages: "Sprachkenntnisse",
-      presentWord: "Heute"
+      presentWord: "Heute",
+      explainTitle: "Was bedeutet „KI\" in diesem Tool eigentlich?",
+      explainP1: "Ehrlich gesagt ruft dieses Tool überhaupt keine API eines großen Sprachmodells auf (weder ChatGPT noch Claude oder ein anderes) — das „intelligente\" Verhalten kommt von einer Phrasensammlung, die von Hand für Chinesisch, Englisch und Deutsch erstellt wurde. Voreingestellte Felder wie Berufsbezeichnung, Abschluss, Verben, Kenntnisse und Sprachniveaus füllen sich in allen drei Sprachen, sobald du eine Option aus einem Dropdown wählst — einfach weil diese Einträge vorab als abgestimmte Dreiergruppen geschrieben wurden.",
+      explainP2: "Freitextfelder wie dein Profil und deine Tätigkeitsbeschreibungen lassen sich dagegen nicht automatisch erstellen oder übersetzen — die musst du für jede Sprache einmal selbst schreiben. Um das zu erleichtern, hat jedes Sprachfeld einen „Kopieren\"-Button, mit dem du das bereits Geschriebene übernimmst und dann in natürliche Formulierungen anpasst, statt Wort für Wort zu übersetzen.",
+      explainP3: "Diese Herangehensweise statt eines echten KI-Modells war eine bewusste Entscheidung: kein API-Key, keine Rechenkosten, kein Konto nötig — alles, was du eingibst, bleibt im lokalen Speicher deines eigenen Browsers und wird nie auf einen Server hochgeladen. Der Preis dafür: Das Tool kann deinen Text nicht stilistisch aufpolieren oder aus dem Nichts einen individuellen Absatz generieren, wie es eine echte KI könnte — lies das Ergebnis nach dem Erstellen deshalb immer sorgfältig durch.",
+      faqTitle: "Häufig gestellte Fragen",
+      faq: [
+        { q: "Verbindet sich dieses Tool tatsächlich mit ChatGPT, Claude oder einem anderen KI-Modell?", a: "Nein. Es ist ein rein clientseitiges Vorlagen-/Phrasensammlung-Tool ohne KI-API-Aufrufe und ohne Backend-Server. Das „KI-artige\" Erlebnis kommt aus einer vorab erstellten dreisprachigen Phrasensammlung." },
+        { q: "Schreibt es mein Profil und meine Tätigkeitsbeschreibungen automatisch für mich?", a: "Nein. Diese Freitextfelder musst du einmal pro Sprache selbst ausfüllen; das Tool bietet nur einen „Kopieren\"-Button als Ausgangspunkt — die tatsächliche Formulierung liegt bei dir." },
+        { q: "Warum füllen sich manche Felder in allen drei Sprachen, wenn ich nur eine wähle?", a: "Weil das voreingestellte Felder sind, die auf einer handgefertigten Phrasensammlung basieren — eine Auswahl ruft direkt die passenden chinesischen/englischen/deutschen Einträge aus dieser Sammlung ab, keine Live-Übersetzung." },
+        { q: "Werden meine Lebenslaufdaten auf einem Server gespeichert oder für andere sichtbar?", a: "Nein. Alles wird ausschließlich im lokalen Speicher deines eigenen Browsers abgelegt, nie auf einen Server hochgeladen, und es gibt kein Konto-System." },
+        { q: "Muss ich den erstellten Lebenslauf selbst noch einmal prüfen?", a: "Ja, und das ist wichtig. Die dreisprachigen Paare der voreingestellten Felder wurden vorab Korrektur gelesen, aber alle Freitextinhalte stammen komplett aus deiner eigenen Eingabe." },
+        { q: "Kann ich dieses Tool ohne Internetverbindung nutzen?", a: "Nach dem ersten Laden der Seite funktionieren die meisten Kernfunktionen auch offline, da das Tool keine Backend- oder KI-API benötigt." }
+      ]
     }
   };
 
@@ -845,6 +884,25 @@
   });
 
   // ---------- UI language switch + help modal ----------
+  const faqListEl = document.getElementById("faqList");
+  function renderFAQ() {
+    if (!faqListEl) return;
+    const faq = (I18N[state.uiLang] && I18N[state.uiLang].faq) || [];
+    faqListEl.innerHTML = "";
+    faq.forEach((item) => {
+      const details = document.createElement("details");
+      details.className = "faq-item";
+      const summary = document.createElement("summary");
+      summary.innerHTML = '<span class="chev">▶</span> <span>' + item.q + "</span>";
+      const body = document.createElement("div");
+      body.className = "faq-a";
+      body.textContent = item.a;
+      details.appendChild(summary);
+      details.appendChild(body);
+      faqListEl.appendChild(details);
+    });
+  }
+
   function applyStaticI18n() {
     document.documentElement.lang = state.uiLang;
     document.querySelectorAll("[data-i18n]").forEach((el) => { el.textContent = t(el.getAttribute("data-i18n")); });
@@ -853,6 +911,7 @@
     document.querySelectorAll(".app-header .lang-switch .lang-btn").forEach((btn) => {
       btn.classList.toggle("active", btn.dataset.lang === state.uiLang);
     });
+    renderFAQ();
   }
 
   function rerenderAll() {
