@@ -625,6 +625,28 @@ body {
 }
 .explain-section p:last-child { margin-bottom: 0; }
 
+.before-after {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 4px 0 14px;
+}
+@media (max-width: 560px) { .before-after { grid-template-columns: 1fr; } }
+.ba-card {
+  border-radius: 10px;
+  padding: 12px 14px;
+  border: 1px solid var(--card-border);
+}
+.ba-before { background: var(--bg); }
+.ba-after { background: var(--bg); border-color: var(--accent); }
+.ba-label {
+  font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
+  margin: 0 0 8px !important; color: var(--text-muted);
+}
+.ba-before .ba-label { color: var(--danger, #c0456f); }
+.ba-after .ba-label { color: var(--accent); }
+.ba-text { font-size: 0.85rem !important; color: var(--text) !important; margin: 0 !important; line-height: 1.6; }
+
 .faq-list { margin-top: 4px; }
 .faq-item {
   border: 1px solid var(--card-border);
