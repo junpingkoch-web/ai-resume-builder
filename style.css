@@ -768,20 +768,33 @@ body {
 
 @media print {
   @page { size: A4; margin: 0; }
-  body * { visibility: hidden; }
+
+  .app-header, .tagline, .ad-slot, .form-col,
+  .preview-toolbar, #previewEmptyState,
+  .explain-section, .disclaimer, .support-fab,
+  #helpModal, #cc-banner {
+    display: none !important;
+  }
+
+  html, body, .app, .layout, .preview-col, .card.preview-card {
+    display: block !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
   .resume-preview, .resume-preview * {
-    visibility: visible;
     -webkit-print-color-adjust: exact;
     print-color-adjust: exact;
     color-adjust: exact;
   }
   .resume-preview {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
     padding: 0;
     border-radius: 0;
+    box-shadow: none;
   }
   .resume-preview:not(.tpl-sidebar):not(.tpl-banner) {
     padding: 16mm 14mm;
