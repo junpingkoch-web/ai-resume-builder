@@ -18,7 +18,7 @@
       fieldName: "姓名", fieldNamePh: "张三 / Jane Doe",
       fieldEmail: "邮箱", fieldPhone: "电话",
       fieldLocation: "所在地", fieldLocationPh: "Zürich, Schweiz",
-      fieldWebsite: "网站 / LinkedIn",
+      fieldWebsite: "网站 / LinkedIn", addWebsiteBtn: "+ 添加", websiteExtraPh: "其他网站链接",
       fieldTitle: "职位头衔 / Headline", presetPlaceholderTitle: "— 选择预设自动填三语，或直接在下方输入 —",
       fieldSummary: "个人简介", fieldYearsPh: "年限",
       summaryHint: "套用模板会用你已填写的头衔与前两项技能自动生成三语简介草稿，之后可自行修改。",
@@ -39,7 +39,7 @@
       fieldLangLevel: "水平", presetPlaceholderLangLevel: "— 选择水平 —",
       resumeLangLabel: "简历语言", templateLabel: "简历模板",
       tplClassic: "经典", tplModern: "现代", tplMinimal: "简约", tplSidebar: "侧边栏", tplBanner: "横幅",
-      generateBtn: "生成三语简历", printBtn: "🖨️ 打印 / 导出 PDF", copyTextBtn: "📋 复制文本",
+      generateBtn: "生成三语简历", printBtn: "🖨️ 打印 / 导出 PDF", downloadWordBtn: "📝 下载 Word (.doc)", copyTextBtn: "📋 复制文本",
       downloadTextBtn: "⬇️ 下载 .txt", previewEmpty: "填写左侧信息并点击“生成三语简历”，预览会显示在这里。",
       copiedMsg: "✅ 已复制",
       disclaimer: "本工具完全在你的浏览器本地运行，不上传、不存储你的任何数据，也不调用任何 AI API — 三语内容由模板与短语库拼接生成，生成后请务必自行校对。",
@@ -83,7 +83,7 @@
       fieldName: "Name", fieldNamePh: "张三 / Jane Doe",
       fieldEmail: "Email", fieldPhone: "Phone",
       fieldLocation: "Location", fieldLocationPh: "Zürich, Schweiz",
-      fieldWebsite: "Website / LinkedIn",
+      fieldWebsite: "Website / LinkedIn", addWebsiteBtn: "+ Add", websiteExtraPh: "Another website link",
       fieldTitle: "Job Title / Headline", presetPlaceholderTitle: "— Pick a preset to fill all 3 languages, or type below —",
       fieldSummary: "Profile Summary", fieldYearsPh: "Years",
       summaryHint: "Applying a template drafts a trilingual summary from your headline and first two skills — edit freely afterwards.",
@@ -104,7 +104,7 @@
       fieldLangLevel: "Level", presetPlaceholderLangLevel: "— Pick a level —",
       resumeLangLabel: "Resume language", templateLabel: "Template",
       tplClassic: "Classic", tplModern: "Modern", tplMinimal: "Minimal", tplSidebar: "Sidebar", tplBanner: "Banner",
-      generateBtn: "Generate Trilingual Resume", printBtn: "🖨️ Print / Export PDF", copyTextBtn: "📋 Copy Text",
+      generateBtn: "Generate Trilingual Resume", printBtn: "🖨️ Print / Export PDF", downloadWordBtn: "📝 Download Word (.doc)", copyTextBtn: "📋 Copy Text",
       downloadTextBtn: "⬇️ Download .txt", previewEmpty: "Fill in the form on the left and click “Generate Trilingual Resume” — the preview will appear here.",
       copiedMsg: "✅ Copied",
       disclaimer: "This tool runs entirely in your browser — nothing is uploaded or stored, and no AI API is called. The trilingual content is assembled from templates and a phrase bank, so please proofread it after generating.",
@@ -148,7 +148,7 @@
       fieldName: "Name", fieldNamePh: "张三 / Jane Doe",
       fieldEmail: "E-Mail", fieldPhone: "Telefon",
       fieldLocation: "Wohnort", fieldLocationPh: "Zürich, Schweiz",
-      fieldWebsite: "Website / LinkedIn",
+      fieldWebsite: "Website / LinkedIn", addWebsiteBtn: "+ Hinzufügen", websiteExtraPh: "Weiterer Website-Link",
       fieldTitle: "Berufsbezeichnung / Headline", presetPlaceholderTitle: "— Vorlage wählen (füllt alle 3 Sprachen), oder unten eintippen —",
       fieldSummary: "Profil", fieldYearsPh: "Jahre",
       summaryHint: "Die Vorlage erstellt einen dreisprachigen Profil-Entwurf aus deiner Berufsbezeichnung und den ersten beiden Kenntnissen — danach frei bearbeitbar.",
@@ -169,7 +169,7 @@
       fieldLangLevel: "Niveau", presetPlaceholderLangLevel: "— Niveau wählen —",
       resumeLangLabel: "Sprache des Lebenslaufs", templateLabel: "Vorlage",
       tplClassic: "Klassisch", tplModern: "Modern", tplMinimal: "Minimalistisch", tplSidebar: "Seitenleiste", tplBanner: "Banner",
-      generateBtn: "Dreisprachigen Lebenslauf erstellen", printBtn: "🖨️ Drucken / Als PDF exportieren", copyTextBtn: "📋 Text kopieren",
+      generateBtn: "Dreisprachigen Lebenslauf erstellen", printBtn: "🖨️ Drucken / Als PDF exportieren", downloadWordBtn: "📝 Als Word (.doc) herunterladen", copyTextBtn: "📋 Text kopieren",
       downloadTextBtn: "⬇️ Als .txt herunterladen", previewEmpty: "Fülle links das Formular aus und klicke auf “Dreisprachigen Lebenslauf erstellen” — die Vorschau erscheint hier.",
       copiedMsg: "✅ Kopiert",
       disclaimer: "Dieses Tool läuft vollständig lokal in deinem Browser — nichts wird hochgeladen oder gespeichert, und es wird keine KI-API aufgerufen. Die dreisprachigen Inhalte werden aus Vorlagen und einer Phrasensammlung zusammengesetzt — bitte nach dem Erstellen unbedingt Korrektur lesen.",
@@ -225,7 +225,7 @@
   function defaultData() {
     return {
       personal: {
-        name: "", email: "", phone: "", location: "", website: "",
+        name: "", email: "", phone: "", location: "", website: "", websitesExtra: [],
         title: emptyLangObj(), summary: emptyLangObj()
       },
       experience: [newExperience()],
@@ -241,12 +241,13 @@
       if (!raw) return null;
       const parsed = JSON.parse(raw);
       if (!parsed || !parsed.personal) return null;
+      if (!Array.isArray(parsed.personal.websitesExtra)) parsed.personal.websitesExtra = [];
       return parsed;
     } catch (e) { return null; }
   }
 
   const state = {
-    uiLang: localStorage.getItem(LANG_KEY) || "zh",
+    uiLang: localStorage.getItem(LANG_KEY) || "de",
     resumeLang: "zh",
     template: TEMPLATES.includes(localStorage.getItem(TEMPLATE_KEY)) ? localStorage.getItem(TEMPLATE_KEY) : "classic",
     data: loadDraft() || defaultData(),
@@ -350,6 +351,8 @@
   const fPhone = document.getElementById("fPhone");
   const fLocation = document.getElementById("fLocation");
   const fWebsite = document.getElementById("fWebsite");
+  const addWebsiteBtn = document.getElementById("addWebsiteBtn");
+  const websiteExtraListEl = document.getElementById("websiteExtraList");
   const titlePreset = document.getElementById("titlePreset");
   const titleLangField = document.getElementById("titleLangField");
   const summaryTemplatePreset = document.getElementById("summaryTemplatePreset");
@@ -364,12 +367,42 @@
     });
   }
 
+  function renderWebsiteExtraList() {
+    const list = state.data.personal.websitesExtra;
+    websiteExtraListEl.innerHTML = list.map((url, idx) => (
+      '<div class="website-extra-row" data-idx="' + idx + '">' +
+        '<input type="text" data-idx="' + idx + '" value="' + escapeHtml(url) + '" placeholder="' + escapeHtml(t("websiteExtraPh")) + '">' +
+        '<button type="button" class="remove-btn" data-action="remove-website">' + escapeHtml(t("removeBtn")) + '</button>' +
+      '</div>'
+    )).join("");
+
+    websiteExtraListEl.querySelectorAll("input[data-idx]").forEach((el) => {
+      el.addEventListener("input", () => {
+        list[Number(el.dataset.idx)] = el.value;
+        saveDraft();
+      });
+    });
+    websiteExtraListEl.querySelectorAll('[data-action="remove-website"]').forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const idx = Number(btn.closest(".website-extra-row").dataset.idx);
+        list.splice(idx, 1);
+        renderWebsiteExtraList();
+        saveDraft();
+      });
+    });
+  }
+
   function initPersonalSectionOnce() {
     bindPlainFieldOnce(fName, "name");
     bindPlainFieldOnce(fEmail, "email");
     bindPlainFieldOnce(fPhone, "phone");
     bindPlainFieldOnce(fLocation, "location");
     bindPlainFieldOnce(fWebsite, "website");
+    addWebsiteBtn.addEventListener("click", () => {
+      state.data.personal.websitesExtra.push("");
+      renderWebsiteExtraList();
+      saveDraft();
+    });
     wirePresetInsert(titlePreset, PB.jobTitles, state.data.personal.title, () => renderLangTabsField(titleLangField, state.data.personal.title));
   }
 
@@ -379,6 +412,7 @@
     fPhone.value = state.data.personal.phone || "";
     fLocation.value = state.data.personal.location || "";
     fWebsite.value = state.data.personal.website || "";
+    renderWebsiteExtraList();
 
     buildPresetOptions(titlePreset, PB.jobTitles, t("presetPlaceholderTitle"));
     renderLangTabsField(titleLangField, state.data.personal.title);
@@ -694,7 +728,7 @@
   // ---------- Generation ----------
   function buildResumeForLang(lang) {
     const p = state.data.personal;
-    const contact = [p.email, p.phone, p.location, p.website].filter(Boolean);
+    const contact = [p.email, p.phone, p.location, p.website].concat(p.websitesExtra || []).filter(Boolean);
     const experience = state.data.experience
       .filter((e) => e.company || e.role[lang] || e.bullets.some((b) => b.text[lang]))
       .map((e) => ({
@@ -815,8 +849,10 @@
   const resumePreviewEl = document.getElementById("resumePreview");
   const previewEmptyStateEl = document.getElementById("previewEmptyState");
   const printBtn = document.getElementById("printBtn");
+  const downloadWordBtn = document.getElementById("downloadWordBtn");
   const copyTextBtn = document.getElementById("copyTextBtn");
   const downloadTextBtn = document.getElementById("downloadTextBtn");
+  const switchBtns = () => document.querySelectorAll(".resume-lang-switch .lang-btn, .template-switch .lang-btn");
 
   function slugify(str) {
     return (str || "resume").toLowerCase().normalize("NFKD").replace(/[̀-ͯ]/g, "")
@@ -859,7 +895,8 @@
     });
     previewEmptyStateEl.hidden = true;
     resumePreviewEl.hidden = false;
-    [printBtn, copyTextBtn, downloadTextBtn].forEach((b) => { b.disabled = false; });
+    [printBtn, downloadWordBtn, copyTextBtn, downloadTextBtn].forEach((b) => { b.disabled = false; });
+    switchBtns().forEach((b) => { b.disabled = false; });
     showResumeLang(state.resumeLang);
   });
 
@@ -898,6 +935,38 @@
     const a = document.createElement("a");
     a.href = url;
     a.download = slugify(state.data.personal.name) + "-resume-" + state.resumeLang + ".txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+
+  function collectResumeCss() {
+    const rules = [];
+    for (const sheet of document.styleSheets) {
+      let cssRules;
+      try { cssRules = sheet.cssRules; } catch (e) { continue; }
+      for (const rule of cssRules) {
+        if (rule.selectorText && rule.selectorText.indexOf("resume-preview") !== -1) {
+          rules.push(rule.cssText);
+        }
+      }
+    }
+    return rules.join("\n");
+  }
+
+  downloadWordBtn.addEventListener("click", () => {
+    if (!state.generated) return;
+    const css = collectResumeCss();
+    const html = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>" +
+      "<head><meta charset='utf-8'><title>" + escapeHtml(state.data.personal.name || "Resume") + "</title>" +
+      "<style>body{font-family:Arial,Helvetica,sans-serif;} " + css + "</style></head>" +
+      "<body>" + resumePreviewEl.outerHTML + "</body></html>";
+    const blob = new Blob(["﻿", html], { type: "application/msword" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = slugify(state.data.personal.name) + "-resume-" + state.resumeLang + ".doc";
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -960,7 +1029,8 @@
   helpModal.addEventListener("click", (e) => { if (e.target === helpModal) helpModal.hidden = true; });
 
   // ---------- Init ----------
-  [printBtn, copyTextBtn, downloadTextBtn].forEach((b) => { b.disabled = true; });
+  [printBtn, downloadWordBtn, copyTextBtn, downloadTextBtn].forEach((b) => { b.disabled = true; });
+  switchBtns().forEach((b) => { b.disabled = true; });
   initPersonalSectionOnce();
   rerenderAll();
 })();

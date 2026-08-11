@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AI 简历生成器 AI Resume Builder KI-Lebenslauf-Generator">
 <meta name="twitter:description" content="免费、无需登录的三语简历生成工具 — 中文/English/Deutsch，一键生成中/英/德三语专业简历。">
-<link rel="stylesheet" href="style.css?v=3">
+<link rel="stylesheet" href="style.css?v=5">
 <!-- Structured data: FAQPage (English defaults; keep in sync with the "en" faq array in script.js) -->
 <script type="application/ld+json">
 {
@@ -154,7 +154,11 @@
             </div>
             <div class="field">
               <label for="fWebsite" data-i18n="fieldWebsite">网站 / LinkedIn</label>
-              <input type="text" id="fWebsite" placeholder="linkedin.com/in/...">
+              <div class="website-row">
+                <input type="text" id="fWebsite" placeholder="linkedin.com/in/...">
+                <button type="button" class="btn btn-secondary btn-small" id="addWebsiteBtn" data-i18n="addWebsiteBtn">+ 添加</button>
+              </div>
+              <div id="websiteExtraList" class="website-extra-list"></div>
             </div>
           </div>
 
@@ -257,6 +261,7 @@
             </div>
             <div class="preview-actions">
               <button type="button" class="btn btn-secondary btn-small" id="printBtn" data-i18n="printBtn">🖨️ 打印 / 导出 PDF</button>
+              <button type="button" class="btn btn-secondary btn-small" id="downloadWordBtn" data-i18n="downloadWordBtn">📝 下载 Word (.doc)</button>
               <button type="button" class="btn btn-secondary btn-small" id="copyTextBtn" data-i18n="copyTextBtn">📋 复制文本</button>
               <button type="button" class="btn btn-secondary btn-small" id="downloadTextBtn" data-i18n="downloadTextBtn">⬇️ 下载 .txt</button>
             </div>
@@ -338,6 +343,6 @@
   </div>
 
   <script src="phrasebank.js?v=2"></script>
-  <script src="script.js?v=4"></script>
+  <script src="script.js?v=7"></script>
 </body>
 </html>

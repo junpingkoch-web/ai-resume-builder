@@ -217,6 +217,12 @@ body {
 
 .hint-text { font-size: 0.75rem; color: var(--text-muted); margin: -2px 0 8px; line-height: 1.5; }
 
+.website-row { display: flex; gap: 8px; }
+.website-row input { flex: 1; min-width: 0; }
+.website-extra-list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+.website-extra-row { display: flex; gap: 8px; }
+.website-extra-row input { flex: 1; min-width: 0; }
+
 .lang-tabs-field { display: flex; flex-direction: column; gap: 10px; }
 
 .lang-tab-item {
@@ -368,6 +374,13 @@ body {
 .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
 
 .btn-small { padding: 7px 12px; font-size: 0.78rem; }
+
+.btn:disabled,
+.lang-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  pointer-events: none;
+}
 
 .btn-generate {
   width: 100%;
