@@ -780,7 +780,7 @@ body {
     display: none !important;
   }
 
-  html, body, .app, .layout, .preview-col, .card.preview-card {
+  html, .app, .layout, .preview-col, .card.preview-card {
     display: block !important;
     height: auto !important;
     margin: 0 !important;
@@ -788,6 +788,17 @@ body {
     background: none !important;
     box-shadow: none !important;
     border: none !important;
+  }
+
+  body {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    min-height: 100vh !important;
+    height: auto !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: none !important;
   }
 
   .resume-preview, .resume-preview * {

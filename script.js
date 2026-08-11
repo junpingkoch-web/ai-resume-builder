@@ -249,9 +249,10 @@
     } catch (e) { return null; }
   }
 
+  const initialUiLang = localStorage.getItem(LANG_KEY) || "de";
   const state = {
-    uiLang: localStorage.getItem(LANG_KEY) || "de",
-    resumeLang: "zh",
+    uiLang: initialUiLang,
+    resumeLang: initialUiLang,
     template: TEMPLATES.includes(localStorage.getItem(TEMPLATE_KEY)) ? localStorage.getItem(TEMPLATE_KEY) : "classic",
     data: loadDraft() || defaultData(),
     generated: null
