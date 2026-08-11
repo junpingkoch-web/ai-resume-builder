@@ -44,6 +44,7 @@
       copiedMsg: "✅ 已复制",
       disclaimer: "本工具完全在你的浏览器本地运行，不上传、不存储你的任何数据，也不调用任何 AI API — 三语内容由模板与短语库拼接生成，生成后请务必自行校对。",
       coffeeTooltip: "喜欢这个工具？请我喝杯咖啡", coffeeBtn: "请我喝杯咖啡",
+      clearFormTooltip: "清空表单（删除本机保存的所有信息）", clearFormConfirm: "确定要清空表单吗？这会删除本机浏览器保存的所有已填写信息，且无法撤销。",
       helpTitle: "使用说明",
       helpTip1: "姓名、邮箱、电话等联系方式在三语版本中保持不变。",
       helpTip2: "职位头衔、学位、动词、语言等可从下拉菜单中选择 — 选中后会自动生成中/英/德三种说法。",
@@ -109,6 +110,7 @@
       copiedMsg: "✅ Copied",
       disclaimer: "This tool runs entirely in your browser — nothing is uploaded or stored, and no AI API is called. The trilingual content is assembled from templates and a phrase bank, so please proofread it after generating.",
       coffeeTooltip: "Enjoyed this tool? Buy me a coffee", coffeeBtn: "Buy me a coffee",
+      clearFormTooltip: "Clear form (deletes everything saved on this device)", clearFormConfirm: "Clear the form? This deletes everything saved in this browser and cannot be undone.",
       helpTitle: "How to use",
       helpTip1: "Contact details (name, email, phone…) stay the same across all three languages.",
       helpTip2: "Job titles, degrees, verbs and languages can be picked from dropdowns — selecting one instantly fills the Chinese/English/German wording.",
@@ -174,6 +176,7 @@
       copiedMsg: "✅ Kopiert",
       disclaimer: "Dieses Tool läuft vollständig lokal in deinem Browser — nichts wird hochgeladen oder gespeichert, und es wird keine KI-API aufgerufen. Die dreisprachigen Inhalte werden aus Vorlagen und einer Phrasensammlung zusammengesetzt — bitte nach dem Erstellen unbedingt Korrektur lesen.",
       coffeeTooltip: "Hat dir das Tool geholfen? Spendier einen Kaffee", coffeeBtn: "Spendier einen Kaffee",
+      clearFormTooltip: "Formular leeren (löscht alle auf diesem Gerät gespeicherten Angaben)", clearFormConfirm: "Formular wirklich leeren? Dadurch werden alle in diesem Browser gespeicherten Angaben gelöscht — das kann nicht rückgängig gemacht werden.",
       helpTitle: "Bedienung",
       helpTip1: "Kontaktdaten (Name, E-Mail, Telefon …) bleiben in allen drei Sprachversionen gleich.",
       helpTip2: "Berufsbezeichnung, Abschluss, Verben und Sprachen lassen sich aus Dropdowns wählen — die Auswahl füllt sofort die chinesische/englische/deutsche Formulierung.",
@@ -728,7 +731,8 @@
   // ---------- Generation ----------
   function buildResumeForLang(lang) {
     const p = state.data.personal;
-    const contact = [p.email, p.phone, p.location, p.website].concat(p.websitesExtra || []).filter(Boolean);
+    const contact = [p.email, p.phone, p.location].filter(Boolean);
+    const links = [p.website].concat(p.websitesExtra || []).filter(Boolean);
     const experience = state.data.experience
       .filter((e) => e.company || e.role[lang] || e.bullets.some((b) => b.text[lang]))
       .map((e) => ({
@@ -749,7 +753,7 @@
       .map((l) => l.name[lang] + (l.level[lang] ? " — " + l.level[lang] : ""));
 
     return {
-      name: p.name, headline: p.title[lang], contact, summary: p.summary[lang],
+      name: p.name, headline: p.title[lang], contact, links, summary: p.summary[lang],
       experience, education, skillsTechnical, skillsSoft, languages
     };
   }
@@ -760,8 +764,11 @@
     b.header = '<div class="r-header"><h2 class="r-name">' + escapeHtml(r.name || "") + "</h2>" +
       (r.headline ? '<p class="r-headline">' + escapeHtml(r.headline) + "</p>" : "") + "</div>";
 
-    b.contact = r.contact.length
-      ? '<div class="r-block r-contact">' + r.contact.map((c) => '<span class="r-contact-item">' + escapeHtml(c) + "</span>").join("") + "</div>"
+    b.contact = (r.contact.length || r.links.length)
+      ? '<div class="r-block r-contact">' +
+        (r.contact.length ? '<div class="r-contact-row">' + r.contact.map((c) => '<span class="r-contact-item">' + escapeHtml(c) + "</span>").join("") + "</div>" : "") +
+        (r.links.length ? '<div class="r-contact-row r-contact-links">' + r.links.map((c) => '<span class="r-contact-item r-contact-link">' + escapeHtml(c) + "</span>").join("") + "</div>" : "") +
+        "</div>"
       : "";
 
     b.summary = r.summary
@@ -820,6 +827,7 @@
     lines.push(r.name || "");
     if (r.headline) lines.push(r.headline);
     if (r.contact.length) lines.push(r.contact.join(" | "));
+    if (r.links.length) lines.push(r.links.join(" | "));
     lines.push("");
     if (r.summary) { lines.push(t("resumeSummary", lang).toUpperCase()); lines.push(r.summary); lines.push(""); }
     if (r.experience.length) {
@@ -1019,6 +1027,20 @@
       localStorage.setItem(LANG_KEY, state.uiLang);
       rerenderAll();
     });
+  });
+
+  const clearFormBtn = document.getElementById("clearFormBtn");
+  clearFormBtn.addEventListener("click", () => {
+    if (!window.confirm(t("clearFormConfirm"))) return;
+    state.data = defaultData();
+    state.generated = null;
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) { /* storage unavailable */ }
+    previewEmptyStateEl.hidden = false;
+    resumePreviewEl.hidden = true;
+    resumePreviewEl.innerHTML = "";
+    [printBtn, downloadWordBtn, copyTextBtn, downloadTextBtn].forEach((b) => { b.disabled = true; });
+    switchBtns().forEach((b) => { b.disabled = true; });
+    rerenderAll();
   });
 
   const helpToggle = document.getElementById("helpToggle");
