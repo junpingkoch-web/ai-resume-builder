@@ -754,8 +754,14 @@ body {
 }
 
 @media print {
+  @page { size: A4; margin: 0; }
   body * { visibility: hidden; }
-  .resume-preview, .resume-preview * { visibility: visible; }
+  .resume-preview, .resume-preview * {
+    visibility: visible;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    color-adjust: exact;
+  }
   .resume-preview {
     position: absolute;
     top: 0;
@@ -763,5 +769,23 @@ body {
     width: 100%;
     padding: 0;
     border-radius: 0;
+  }
+  .resume-preview:not(.tpl-sidebar):not(.tpl-banner) {
+    padding: 16mm 14mm;
+  }
+  .resume-preview .r-entry {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  .resume-preview .r-section {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+  .resume-preview .r-block.r-summary,
+  .resume-preview .r-block.r-skills-technical,
+  .resume-preview .r-block.r-skills-soft,
+  .resume-preview .r-block.r-languages {
+    break-inside: avoid;
+    page-break-inside: avoid;
   }
 }
