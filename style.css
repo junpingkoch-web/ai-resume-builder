@@ -204,6 +204,7 @@ body {
 .photo-upload-btn { cursor: pointer; }
 
 .photo-adjust-row { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; max-width: 280px; }
+.photo-adjust-row[hidden] { display: none; }
 .photo-drag-hint { margin: 0; }
 .photo-slider-row { display: flex; align-items: center; gap: 10px; }
 .photo-slider-row label { flex-shrink: 0; width: 44px; }
@@ -455,6 +456,7 @@ body {
   font-size: 0.88rem;
   line-height: 1.55;
 }
+.resume-preview[hidden] { display: none !important; }
 
 .resume-preview .r-header { margin: 0; }
 .resume-preview .r-header.has-photo { display: flex; align-items: center; gap: 16px; }
