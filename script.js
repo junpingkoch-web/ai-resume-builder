@@ -19,6 +19,8 @@
       fieldEmail: "邮箱", fieldPhone: "电话",
       fieldLocation: "所在地", fieldLocationPh: "Zürich, Schweiz",
       fieldWebsite: "网站 / LinkedIn", addWebsiteBtn: "+ 添加", websiteExtraPh: "其他网站链接",
+      fieldPhoto: "照片（可选）", photoUploadBtn: "上传照片",
+      photoHint: "照片只会保存在你自己的浏览器里，不会上传到任何服务器。是否放照片因地区而异——瑞士/德国简历常附照片，但在美国、英国等地区通常不建议附照片，请根据求职地区自行判断。",
       fieldTitle: "职位头衔 / Headline", presetPlaceholderTitle: "— 选择预设自动填三语，或直接在下方输入 —",
       fieldSummary: "个人简介", fieldYearsPh: "年限",
       summaryHint: "套用模板会用你已填写的头衔与前两项技能自动生成三语简介草稿，之后可自行修改。",
@@ -85,6 +87,8 @@
       fieldEmail: "Email", fieldPhone: "Phone",
       fieldLocation: "Location", fieldLocationPh: "Zürich, Schweiz",
       fieldWebsite: "Website / LinkedIn", addWebsiteBtn: "+ Add", websiteExtraPh: "Another website link",
+      fieldPhoto: "Photo (optional)", photoUploadBtn: "Upload photo",
+      photoHint: "Your photo stays only in your own browser — it's never uploaded to a server. Whether to include one depends on where you're applying: common on Swiss/German resumes, generally discouraged in the US, UK and similar markets. Decide based on your target region.",
       fieldTitle: "Job Title / Headline", presetPlaceholderTitle: "— Pick a preset to fill all 3 languages, or type below —",
       fieldSummary: "Profile Summary", fieldYearsPh: "Years",
       summaryHint: "Applying a template drafts a trilingual summary from your headline and first two skills — edit freely afterwards.",
@@ -151,6 +155,8 @@
       fieldEmail: "E-Mail", fieldPhone: "Telefon",
       fieldLocation: "Wohnort", fieldLocationPh: "Zürich, Schweiz",
       fieldWebsite: "Website / LinkedIn", addWebsiteBtn: "+ Hinzufügen", websiteExtraPh: "Weiterer Website-Link",
+      fieldPhoto: "Foto (optional)", photoUploadBtn: "Foto hochladen",
+      photoHint: "Dein Foto bleibt nur in deinem eigenen Browser gespeichert und wird nie auf einen Server hochgeladen. Ob ein Foto sinnvoll ist, hängt vom Zielmarkt ab — in der Schweiz/Deutschland üblich, in den USA, UK und ähnlichen Märkten meist unerwünscht. Entscheide je nach Zielregion.",
       fieldTitle: "Berufsbezeichnung / Headline", presetPlaceholderTitle: "— Vorlage wählen (füllt alle 3 Sprachen), oder unten eintippen —",
       fieldSummary: "Profil", fieldYearsPh: "Jahre",
       summaryHint: "Die Vorlage erstellt einen dreisprachigen Profil-Entwurf aus deiner Berufsbezeichnung und den ersten beiden Kenntnissen — danach frei bearbeitbar.",
@@ -229,7 +235,7 @@
     return {
       personal: {
         name: "", email: "", phone: "", location: "", website: "", websitesExtra: [],
-        title: emptyLangObj(), summary: emptyLangObj()
+        photo: "", title: emptyLangObj(), summary: emptyLangObj()
       },
       experience: [newExperience()],
       education: [newEducation()],
@@ -357,6 +363,10 @@
   const fWebsite = document.getElementById("fWebsite");
   const addWebsiteBtn = document.getElementById("addWebsiteBtn");
   const websiteExtraListEl = document.getElementById("websiteExtraList");
+  const fPhoto = document.getElementById("fPhoto");
+  const photoPreviewWrap = document.getElementById("photoPreviewWrap");
+  const photoPreviewImg = document.getElementById("photoPreviewImg");
+  const photoRemoveBtn = document.getElementById("photoRemoveBtn");
   const titlePreset = document.getElementById("titlePreset");
   const titleLangField = document.getElementById("titleLangField");
   const summaryTemplatePreset = document.getElementById("summaryTemplatePreset");
@@ -369,6 +379,42 @@
       state.data.personal[path] = el.value;
       saveDraft();
     });
+  }
+
+  // Downscale + re-encode to keep the base64 copy small (localStorage quota, print/PDF weight).
+  function resizeImageToDataUrl(file, maxDim, quality) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = () => reject(reader.error);
+      reader.onload = () => {
+        const img = new Image();
+        img.onerror = () => reject(new Error("invalid image"));
+        img.onload = () => {
+          const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+          const w = Math.max(1, Math.round(img.width * scale));
+          const h = Math.max(1, Math.round(img.height * scale));
+          const canvas = document.createElement("canvas");
+          canvas.width = w; canvas.height = h;
+          canvas.getContext("2d").drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL("image/jpeg", quality));
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function renderPhotoPreview() {
+    const photo = state.data.personal.photo;
+    if (photo) {
+      photoPreviewImg.src = photo;
+      photoPreviewWrap.hidden = false;
+      photoRemoveBtn.hidden = false;
+    } else {
+      photoPreviewImg.src = "";
+      photoPreviewWrap.hidden = true;
+      photoRemoveBtn.hidden = true;
+    }
   }
 
   function renderWebsiteExtraList() {
@@ -407,6 +453,21 @@
       renderWebsiteExtraList();
       saveDraft();
     });
+    fPhoto.addEventListener("change", () => {
+      const file = fPhoto.files && fPhoto.files[0];
+      fPhoto.value = "";
+      if (!file) return;
+      resizeImageToDataUrl(file, 500, 0.85).then((dataUrl) => {
+        state.data.personal.photo = dataUrl;
+        renderPhotoPreview();
+        saveDraft();
+      }).catch(() => { /* not a readable image, ignore */ });
+    });
+    photoRemoveBtn.addEventListener("click", () => {
+      state.data.personal.photo = "";
+      renderPhotoPreview();
+      saveDraft();
+    });
     wirePresetInsert(titlePreset, PB.jobTitles, state.data.personal.title, () => renderLangTabsField(titleLangField, state.data.personal.title));
   }
 
@@ -417,6 +478,7 @@
     fLocation.value = state.data.personal.location || "";
     fWebsite.value = state.data.personal.website || "";
     renderWebsiteExtraList();
+    renderPhotoPreview();
 
     buildPresetOptions(titlePreset, PB.jobTitles, t("presetPlaceholderTitle"));
     renderLangTabsField(titleLangField, state.data.personal.title);
@@ -754,7 +816,7 @@
       .map((l) => l.name[lang] + (l.level[lang] ? " — " + l.level[lang] : ""));
 
     return {
-      name: p.name, headline: p.title[lang], contact, links, summary: p.summary[lang],
+      name: p.name, headline: p.title[lang], photo: p.photo, contact, links, summary: p.summary[lang],
       experience, education, skillsTechnical, skillsSoft, languages
     };
   }
@@ -762,8 +824,11 @@
   function buildResumeBlocks(r, lang) {
     const b = {};
 
-    b.header = '<div class="r-header"><h2 class="r-name">' + escapeHtml(r.name || "") + "</h2>" +
+    const headerText = '<div class="r-header-text"><h2 class="r-name">' + escapeHtml(r.name || "") + "</h2>" +
       (r.headline ? '<p class="r-headline">' + escapeHtml(r.headline) + "</p>" : "") + "</div>";
+    b.header = r.photo
+      ? '<div class="r-header has-photo"><img class="r-photo" src="' + r.photo + '" alt="">' + headerText + "</div>"
+      : '<div class="r-header">' + headerText + "</div>";
 
     b.contact = (r.contact.length || r.links.length)
       ? '<div class="r-block r-contact">' +

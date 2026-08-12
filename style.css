@@ -192,6 +192,15 @@ body {
 
 .field label { font-size: 0.78rem; color: var(--text-muted); font-weight: 600; }
 
+.photo-upload-row { display: flex; align-items: center; gap: 12px; }
+.photo-preview {
+  width: 56px; height: 56px; border-radius: 50%; overflow: hidden;
+  flex-shrink: 0; border: 1px solid var(--card-border);
+}
+.photo-preview img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo-upload-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.photo-upload-btn { cursor: pointer; }
+
 .field input,
 .field textarea,
 .field select,
@@ -440,6 +449,12 @@ body {
 }
 
 .resume-preview .r-header { margin: 0; }
+.resume-preview .r-header.has-photo { display: flex; align-items: center; gap: 16px; }
+.resume-preview .r-header.has-photo .r-header-text { min-width: 0; }
+.resume-preview .r-photo {
+  width: 76px; height: 76px; border-radius: 50%; object-fit: cover;
+  flex-shrink: 0; border: 2px solid rgba(0,0,0,0.08);
+}
 .resume-preview .r-name { margin: 0 0 2px; font-size: 1.5rem; font-weight: 800; }
 .resume-preview .r-headline { margin: 0 0 8px; font-size: 0.95rem; font-weight: 600; }
 .resume-preview .r-contact { margin: 0 0 18px; font-size: 0.88rem; font-weight: 500; color: #4a4a4a; }
@@ -587,6 +602,7 @@ body {
   margin: 0;
 }
 .resume-preview.tpl-banner .r-header { padding-top: 30px; padding-bottom: 8px; }
+.resume-preview.tpl-banner .r-photo { border-color: rgba(255,255,255,0.5); }
 .resume-preview.tpl-banner .r-contact { padding-top: 8px; padding-bottom: 26px; margin-bottom: 22px; color: #dce6f2; }
 .resume-preview.tpl-banner .r-name { color: #ffffff; }
 .resume-preview.tpl-banner .r-headline { color: #cfdcec; font-weight: 600; }

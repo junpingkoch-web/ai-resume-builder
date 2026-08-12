@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AI 简历生成器 AI Resume Builder KI-Lebenslauf-Generator">
 <meta name="twitter:description" content="免费、无需登录的三语简历生成工具 — 中文/English/Deutsch，一键生成中/英/德三语专业简历。">
-<link rel="stylesheet" href="style.css?v=9">
+<link rel="stylesheet" href="style.css?v=10">
 <!-- Structured data: FAQPage (English defaults; keep in sync with the "en" faq array in script.js) -->
 <script type="application/ld+json">
 {
@@ -137,6 +137,20 @@
 
         <section class="card">
           <h2 class="section-title" data-i18n="sectionPersonal">个人信息</h2>
+          <div class="field">
+            <label data-i18n="fieldPhoto">照片（可选）</label>
+            <div class="photo-upload-row">
+              <div class="photo-preview" id="photoPreviewWrap" hidden>
+                <img id="photoPreviewImg" alt="">
+              </div>
+              <div class="photo-upload-actions">
+                <label for="fPhoto" class="btn btn-secondary btn-small photo-upload-btn" data-i18n="photoUploadBtn">上传照片</label>
+                <input type="file" id="fPhoto" accept="image/png,image/jpeg,image/webp" hidden>
+                <button type="button" class="btn btn-secondary btn-small" id="photoRemoveBtn" data-i18n="removeBtn" hidden>移除</button>
+              </div>
+            </div>
+            <p class="hint-text" data-i18n="photoHint">照片只会保存在你自己的浏览器里，不会上传到任何服务器。是否放照片因地区而异——瑞士/德国简历常附照片，但在美国、英国等地区通常不建议附照片，请根据求职地区自行判断。</p>
+          </div>
           <div class="field-grid">
             <div class="field">
               <label for="fName" data-i18n="fieldName">姓名</label>
@@ -345,6 +359,6 @@
   </div>
 
   <script src="phrasebank.js?v=2"></script>
-  <script src="script.js?v=9"></script>
+  <script src="script.js?v=10"></script>
 </body>
 </html>
