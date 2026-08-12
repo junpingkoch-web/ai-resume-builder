@@ -21,6 +21,7 @@
       fieldWebsite: "网站 / LinkedIn", addWebsiteBtn: "+ 添加", websiteExtraPh: "其他网站链接",
       fieldPhoto: "照片（可选）", photoUploadBtn: "上传照片",
       photoHint: "照片只会保存在你自己的浏览器里，不会上传到任何服务器。是否放照片因地区而异——瑞士/德国简历常附照片，但在美国、英国等地区通常不建议附照片，请根据求职地区自行判断。",
+      photoDragHint: "拖动照片可调整位置", photoZoomLabel: "缩放", photoRotateLabel: "角度", photoResetBtn: "重置",
       fieldTitle: "职位头衔 / Headline", presetPlaceholderTitle: "— 选择预设自动填三语，或直接在下方输入 —",
       fieldSummary: "个人简介", fieldYearsPh: "年限",
       summaryHint: "套用模板会用你已填写的头衔与前两项技能自动生成三语简介草稿，之后可自行修改。",
@@ -89,6 +90,7 @@
       fieldWebsite: "Website / LinkedIn", addWebsiteBtn: "+ Add", websiteExtraPh: "Another website link",
       fieldPhoto: "Photo (optional)", photoUploadBtn: "Upload photo",
       photoHint: "Your photo stays only in your own browser — it's never uploaded to a server. Whether to include one depends on where you're applying: common on Swiss/German resumes, generally discouraged in the US, UK and similar markets. Decide based on your target region.",
+      photoDragHint: "Drag the photo to reposition it", photoZoomLabel: "Zoom", photoRotateLabel: "Angle", photoResetBtn: "Reset",
       fieldTitle: "Job Title / Headline", presetPlaceholderTitle: "— Pick a preset to fill all 3 languages, or type below —",
       fieldSummary: "Profile Summary", fieldYearsPh: "Years",
       summaryHint: "Applying a template drafts a trilingual summary from your headline and first two skills — edit freely afterwards.",
@@ -157,6 +159,7 @@
       fieldWebsite: "Website / LinkedIn", addWebsiteBtn: "+ Hinzufügen", websiteExtraPh: "Weiterer Website-Link",
       fieldPhoto: "Foto (optional)", photoUploadBtn: "Foto hochladen",
       photoHint: "Dein Foto bleibt nur in deinem eigenen Browser gespeichert und wird nie auf einen Server hochgeladen. Ob ein Foto sinnvoll ist, hängt vom Zielmarkt ab — in der Schweiz/Deutschland üblich, in den USA, UK und ähnlichen Märkten meist unerwünscht. Entscheide je nach Zielregion.",
+      photoDragHint: "Foto ziehen, um die Position anzupassen", photoZoomLabel: "Zoom", photoRotateLabel: "Winkel", photoResetBtn: "Zurücksetzen",
       fieldTitle: "Berufsbezeichnung / Headline", presetPlaceholderTitle: "— Vorlage wählen (füllt alle 3 Sprachen), oder unten eintippen —",
       fieldSummary: "Profil", fieldYearsPh: "Jahre",
       summaryHint: "Die Vorlage erstellt einen dreisprachigen Profil-Entwurf aus deiner Berufsbezeichnung und den ersten beiden Kenntnissen — danach frei bearbeitbar.",
@@ -235,7 +238,8 @@
     return {
       personal: {
         name: "", email: "", phone: "", location: "", website: "", websitesExtra: [],
-        photo: "", title: emptyLangObj(), summary: emptyLangObj()
+        photo: "", photoTransform: { x: 50, y: 50, scale: 1, rotate: 0 },
+        title: emptyLangObj(), summary: emptyLangObj()
       },
       experience: [newExperience()],
       education: [newEducation()],
@@ -251,6 +255,9 @@
       const parsed = JSON.parse(raw);
       if (!parsed || !parsed.personal) return null;
       if (!Array.isArray(parsed.personal.websitesExtra)) parsed.personal.websitesExtra = [];
+      if (!parsed.personal.photoTransform || typeof parsed.personal.photoTransform !== "object") {
+        parsed.personal.photoTransform = { x: 50, y: 50, scale: 1, rotate: 0 };
+      }
       return parsed;
     } catch (e) { return null; }
   }
@@ -367,6 +374,10 @@
   const photoPreviewWrap = document.getElementById("photoPreviewWrap");
   const photoPreviewImg = document.getElementById("photoPreviewImg");
   const photoRemoveBtn = document.getElementById("photoRemoveBtn");
+  const photoZoom = document.getElementById("photoZoom");
+  const photoRotate = document.getElementById("photoRotate");
+  const photoResetBtn = document.getElementById("photoResetBtn");
+  const photoAdjustRow = document.getElementById("photoAdjustRow");
   const titlePreset = document.getElementById("titlePreset");
   const titleLangField = document.getElementById("titleLangField");
   const summaryTemplatePreset = document.getElementById("summaryTemplatePreset");
@@ -404,16 +415,27 @@
     });
   }
 
+  function applyPhotoTransformToPreview() {
+    const t = state.data.personal.photoTransform;
+    photoPreviewImg.style.objectPosition = t.x + "% " + t.y + "%";
+    photoPreviewImg.style.transform = "scale(" + t.scale + ") rotate(" + t.rotate + "deg)";
+    photoZoom.value = t.scale;
+    photoRotate.value = t.rotate;
+  }
+
   function renderPhotoPreview() {
     const photo = state.data.personal.photo;
     if (photo) {
       photoPreviewImg.src = photo;
       photoPreviewWrap.hidden = false;
       photoRemoveBtn.hidden = false;
+      photoAdjustRow.hidden = false;
+      applyPhotoTransformToPreview();
     } else {
       photoPreviewImg.src = "";
       photoPreviewWrap.hidden = true;
       photoRemoveBtn.hidden = true;
+      photoAdjustRow.hidden = true;
     }
   }
 
@@ -459,6 +481,7 @@
       if (!file) return;
       resizeImageToDataUrl(file, 500, 0.85).then((dataUrl) => {
         state.data.personal.photo = dataUrl;
+        state.data.personal.photoTransform = { x: 50, y: 50, scale: 1, rotate: 0 };
         renderPhotoPreview();
         saveDraft();
       }).catch(() => { /* not a readable image, ignore */ });
@@ -468,6 +491,52 @@
       renderPhotoPreview();
       saveDraft();
     });
+    photoResetBtn.addEventListener("click", () => {
+      state.data.personal.photoTransform = { x: 50, y: 50, scale: 1, rotate: 0 };
+      applyPhotoTransformToPreview();
+      saveDraft();
+    });
+    photoZoom.addEventListener("input", () => {
+      state.data.personal.photoTransform.scale = Number(photoZoom.value);
+      applyPhotoTransformToPreview();
+      saveDraft();
+    });
+    photoRotate.addEventListener("input", () => {
+      state.data.personal.photoTransform.rotate = Number(photoRotate.value);
+      applyPhotoTransformToPreview();
+      saveDraft();
+    });
+
+    // Drag to reposition (pan) the photo within its circular frame.
+    let dragState = null;
+    photoPreviewWrap.addEventListener("pointerdown", (e) => {
+      if (!state.data.personal.photo) return;
+      const rect = photoPreviewWrap.getBoundingClientRect();
+      dragState = {
+        startX: e.clientX, startY: e.clientY,
+        origX: state.data.personal.photoTransform.x, origY: state.data.personal.photoTransform.y,
+        boxW: rect.width, boxH: rect.height
+      };
+      try { photoPreviewWrap.setPointerCapture(e.pointerId); } catch (err) { /* no active pointer to capture */ }
+      photoPreviewWrap.classList.add("dragging");
+    });
+    photoPreviewWrap.addEventListener("pointermove", (e) => {
+      if (!dragState) return;
+      const dx = e.clientX - dragState.startX;
+      const dy = e.clientY - dragState.startY;
+      const t = state.data.personal.photoTransform;
+      t.x = Math.min(100, Math.max(0, dragState.origX - (dx / dragState.boxW) * 100));
+      t.y = Math.min(100, Math.max(0, dragState.origY - (dy / dragState.boxH) * 100));
+      applyPhotoTransformToPreview();
+    });
+    function endPhotoDrag() {
+      if (!dragState) return;
+      dragState = null;
+      photoPreviewWrap.classList.remove("dragging");
+      saveDraft();
+    }
+    photoPreviewWrap.addEventListener("pointerup", endPhotoDrag);
+    photoPreviewWrap.addEventListener("pointercancel", endPhotoDrag);
     wirePresetInsert(titlePreset, PB.jobTitles, state.data.personal.title, () => renderLangTabsField(titleLangField, state.data.personal.title));
   }
 
@@ -816,9 +885,14 @@
       .map((l) => l.name[lang] + (l.level[lang] ? " — " + l.level[lang] : ""));
 
     return {
-      name: p.name, headline: p.title[lang], photo: p.photo, contact, links, summary: p.summary[lang],
+      name: p.name, headline: p.title[lang], photo: p.photo, photoTransform: p.photoTransform, contact, links, summary: p.summary[lang],
       experience, education, skillsTechnical, skillsSoft, languages
     };
+  }
+
+  function photoStyleAttr(pt) {
+    const t = pt || { x: 50, y: 50, scale: 1, rotate: 0 };
+    return 'style="object-position:' + t.x + '% ' + t.y + '%; transform: scale(' + t.scale + ') rotate(' + t.rotate + 'deg);"';
   }
 
   function buildResumeBlocks(r, lang) {
@@ -827,7 +901,7 @@
     const headerText = '<div class="r-header-text"><h2 class="r-name">' + escapeHtml(r.name || "") + "</h2>" +
       (r.headline ? '<p class="r-headline">' + escapeHtml(r.headline) + "</p>" : "") + "</div>";
     b.header = r.photo
-      ? '<div class="r-header has-photo"><img class="r-photo" src="' + r.photo + '" alt="">' + headerText + "</div>"
+      ? '<div class="r-header has-photo"><img class="r-photo" src="' + r.photo + '" alt="" ' + photoStyleAttr(r.photoTransform) + '>' + headerText + "</div>"
       : '<div class="r-header">' + headerText + "</div>";
 
     b.contact = (r.contact.length || r.links.length)

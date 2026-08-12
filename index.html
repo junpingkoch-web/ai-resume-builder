@@ -16,7 +16,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="AI 简历生成器 AI Resume Builder KI-Lebenslauf-Generator">
 <meta name="twitter:description" content="免费、无需登录的三语简历生成工具 — 中文/English/Deutsch，一键生成中/英/德三语专业简历。">
-<link rel="stylesheet" href="style.css?v=10">
+<link rel="stylesheet" href="style.css?v=11">
 <!-- Structured data: FAQPage (English defaults; keep in sync with the "en" faq array in script.js) -->
 <script type="application/ld+json">
 {
@@ -148,6 +148,18 @@
                 <input type="file" id="fPhoto" accept="image/png,image/jpeg,image/webp" hidden>
                 <button type="button" class="btn btn-secondary btn-small" id="photoRemoveBtn" data-i18n="removeBtn" hidden>移除</button>
               </div>
+            </div>
+            <div class="photo-adjust-row" id="photoAdjustRow" hidden>
+              <p class="hint-text photo-drag-hint" data-i18n="photoDragHint">拖动照片可调整位置</p>
+              <div class="photo-slider-row">
+                <label for="photoZoom" data-i18n="photoZoomLabel">缩放</label>
+                <input type="range" id="photoZoom" min="1" max="3" step="0.05" value="1">
+              </div>
+              <div class="photo-slider-row">
+                <label for="photoRotate" data-i18n="photoRotateLabel">角度</label>
+                <input type="range" id="photoRotate" min="-45" max="45" step="1" value="0">
+              </div>
+              <button type="button" class="btn btn-secondary btn-small" id="photoResetBtn" data-i18n="photoResetBtn">重置</button>
             </div>
             <p class="hint-text" data-i18n="photoHint">照片只会保存在你自己的浏览器里，不会上传到任何服务器。是否放照片因地区而异——瑞士/德国简历常附照片，但在美国、英国等地区通常不建议附照片，请根据求职地区自行判断。</p>
           </div>
@@ -359,6 +371,6 @@
   </div>
 
   <script src="phrasebank.js?v=2"></script>
-  <script src="script.js?v=10"></script>
+  <script src="script.js?v=11"></script>
 </body>
 </html>
