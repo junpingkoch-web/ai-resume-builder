@@ -13,6 +13,13 @@
 ## 数据模型（改 script.js / phrasebank.js / index.html 前必读）
 详细规则见 `.claude/rules/resume-data-model.md`（路径作用域，只在改这三个文件时加载）。
 
+## 打印 / PDF 导出（改 @media print 或打印逻辑前必读）
+详细规则见 `.claude/rules/print-pdf-export.md`（路径作用域，改 style.css/index.html/script.js 时加载）。
+核心结论：`visibility:hidden` 会让隐藏元素继续占版面空间，打印相关的"隐藏非目标内容"一律用
+`display:none`；且**屏幕模式下注入 `<style>` 模拟 `@media print` 测不出真正的打印引擎坑**，
+改完打印样式要用 headless Chrome + puppeteer-core 实际渲染 PDF 再用 pymupdf 量化核验，
+不能只凭肉眼看截图或屏幕模拟的结果就下结论。
+
 ## Commands
 - 无构建/测试命令，零构建静态站
 - 本地预览：共享配置在 `C:\Users\junpi\.claude\.claude\launch.json`，不是本仓库自己的 `.claude/launch.json`
