@@ -306,26 +306,51 @@
     </div>
 
     <section class="explain-section">
-      <h2 data-i18n="explainTitle">What does "AI" actually mean in this tool's name?</h2>
-      <p data-i18n="explainP1"></p>
-      <p data-i18n="explainP2"></p>
-      <p data-i18n="explainP3"></p>
+      <h2 data-i18n="explainTitle">这里的「AI」到底是什么意思？</h2>
+      <p data-i18n="explainP1">老实说，这个工具完全不调用任何大语言模型（比如 ChatGPT、Claude）的 API——所谓「智能」，其实是一个我手工整理的中/英/德三语短语库在起作用。职位头衔、学位、动词、技能名称、语言水平这些「预设」字段，选一次下拉菜单，就能同时填出三种语言的标准说法，因为这些词条本来就是我提前按三语一一对应写好的。</p>
+      <p data-i18n="explainP2">但个人简介和工作经历描述这类自由填写的内容，工具没办法帮你自动生成或翻译——你需要为每种语言各写一遍。为了减轻负担，每个语言输入框旁边都有一个「复制到其他语言」按钮，可以先把已经写好的一种语言复制过去，再手动调整成地道的表达，而不是逐字硬翻。</p>
+      <p data-i18n="explainP3">选择这种做法而不是接入真实AI模型，是刻意的取舍：不需要 API Key、不产生任何算力费用、不需要注册账号，你填写的所有信息只保存在你自己浏览器的本地存储里，从不上传到任何服务器——代价是没法像真正的AI那样帮你润色文笔或凭空生成个性化的段落，生成后请务必自己通读检查一遍。</p>
 
-      <h2 data-i18n="beforeAfterTitle">An example: how one bullet point gets stronger</h2>
+      <h2 data-i18n="beforeAfterTitle">举个例子：一条工作经历要点是怎么变强的</h2>
       <div class="before-after">
         <div class="ba-card ba-before">
-          <p class="ba-label" data-i18n="beforeLabel">A common (weak) version</p>
-          <p class="ba-text" data-i18n="beforeText"></p>
+          <p class="ba-label" data-i18n="beforeLabel">常见的写法（弱）</p>
+          <p class="ba-text" data-i18n="beforeText">负责客户方面的一些工作，效果还不错。</p>
         </div>
         <div class="ba-card ba-after">
-          <p class="ba-label" data-i18n="afterLabel">An improved version</p>
-          <p class="ba-text" data-i18n="afterText"></p>
+          <p class="ba-label" data-i18n="afterLabel">改进后的写法</p>
+          <p class="ba-text" data-i18n="afterText">优化了跨部门客户对接流程，将平均响应时间从48小时压缩到12小时。</p>
         </div>
       </div>
-      <p data-i18n="beforeAfterNote"></p>
+      <p data-i18n="beforeAfterNote">从「职位描述」下拉菜单选一个动词（比如「优化」），会同时填出中/英/德三种说法——但真正让这条经历变强的，是后面这句话里的两个具体数字（48小时→12小时）。工具能帮你快速选出一个有力的开头动词，剩下的细节还是要你自己填，这也是为什么每次生成后都建议你通读检查一遍。</p>
 
-      <h2 data-i18n="faqTitle">Frequently Asked Questions</h2>
-      <div class="faq-list" id="faqList"></div>
+      <h2 data-i18n="faqTitle">常见问题</h2>
+      <div class="faq-list" id="faqList">
+        <details class="faq-item">
+          <summary><span class="chev">▶</span> <span>这个工具真的接入了 ChatGPT、Claude 这类AI大模型吗？</span></summary>
+          <div class="faq-a">没有。这是一个纯前端的模板/短语库工具，不调用任何AI API，也没有后端服务器。所谓「AI」体验，来自提前整理好的中/英/德三语对照词库。</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="chev">▶</span> <span>个人简介和工作描述是自动帮我写好的吗？</span></summary>
+          <div class="faq-a">不是。这些自由文本内容需要你自己为每种语言分别填写一次；工具只提供「复制到其他语言」按钮帮你把已写好的内容复制过去做起点，具体措辞仍需你自己调整。</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="chev">▶</span> <span>为什么有些字段（比如职位、学位、技能）选一次就能同时出现三种语言？</span></summary>
+          <div class="faq-a">因为这些是「预设」字段，背后是我提前手工整理好的三语词库——选中一个选项，就是直接调用词库里对应的中/英/德三个版本，不是实时翻译或生成。</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="chev">▶</span> <span>我填写的简历信息会被保存到服务器或被别人看到吗？</span></summary>
+          <div class="faq-a">不会。所有数据只保存在你自己浏览器的本地存储（localStorage）中，永远不会上传到任何服务器，也没有账号系统。</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="chev">▶</span> <span>生成的简历内容需要我自己检查吗？</span></summary>
+          <div class="faq-a">需要，而且很重要。虽然预设字段的三语对照是提前校对好的，但自由填写的内容完全出自你自己的输入，生成后请务必通读一遍，确认语法、格式和内容都准确无误。</div>
+        </details>
+        <details class="faq-item">
+          <summary><span class="chev">▶</span> <span>没有网络连接可以用这个工具吗？</span></summary>
+          <div class="faq-a">首次加载页面后，由于工具不依赖任何后端接口或AI API，大部分核心功能（填写、生成、预览、打印）在离线状态下也能正常使用。</div>
+        </details>
+      </div>
     </section>
 
     <footer class="disclaimer">
