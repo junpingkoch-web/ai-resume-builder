@@ -1046,6 +1046,7 @@
     [printBtn, downloadWordBtn, copyTextBtn, downloadTextBtn].forEach((b) => { b.disabled = false; });
     switchBtns().forEach((b) => { b.disabled = false; });
     showResumeLang(state.resumeLang);
+    if (typeof gtag === "function") gtag("event", "tool_result_generated", { tool_name: "ai-resume-builder" });
   });
 
   document.querySelectorAll(".resume-lang-switch .lang-btn").forEach((btn) => {
