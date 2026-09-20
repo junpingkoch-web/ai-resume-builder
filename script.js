@@ -295,7 +295,7 @@
     } catch (e) { return null; }
   }
 
-  const initialUiLang = localStorage.getItem(LANG_KEY) || "de";
+  const initialUiLang = localStorage.getItem(LANG_KEY) || (function () { var n = (navigator.language || "en").toLowerCase(); return n.indexOf("zh") === 0 ? "zh" : n.indexOf("de") === 0 ? "de" : "en"; })();
   const state = {
     uiLang: initialUiLang,
     resumeLang: initialUiLang,
