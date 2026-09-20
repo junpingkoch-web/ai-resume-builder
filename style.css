@@ -656,6 +656,12 @@ body {
   color: var(--text);
 }
 .explain-section h2:not(:first-child) { margin-top: 20px; }
+.explain-section h3 {
+  font-size: 0.92rem;
+  font-weight: 700;
+  margin: 16px 0 6px;
+  color: var(--text);
+}
 .explain-section p {
   font-size: 0.85rem;
   color: var(--text-muted);
